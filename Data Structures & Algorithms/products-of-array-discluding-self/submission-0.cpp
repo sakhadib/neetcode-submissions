@@ -1,41 +1,35 @@
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
-        int x=1;
-        int zeros = 0;
-        for (int i=0; i<nums.size(); i++){
-            if(nums[i] != 0){
-                x = x*nums[i];
+        int count_zero = 0;
+        int zeros_index = 0;
+        long long prod = 1;
+        for(int i = 0; i<nums.size(); i++){
+            if(nums[i] == 0){
+                count_zero++;  
+                zeros_index = i; 
             }
             else{
-                zeros++;
+                prod = prod * nums[i];
             }
+
         }
 
-        // more than 1 zero makes everything zero
-        if(zeros > 1){
+        if(count_zero > 1){
+            return vector<int>(nums.size(), 0);
+        }
+        else if(count_zero == 1){
             vector<int> res(nums.size(), 0);
-            return res;
-        } 
-
-        // 1 zero keeps that index filled. others 0. except this all normal
-        if(zeros == 1){
-            vector<int> res(nums.size(), 0);
-            for(int i=0; i<nums.size(); i++){
-                if(nums[i] == 0){
-                    res[i] = x;
-                }
-            }
+            res[zeros_index] = prod;
             return res;
         }
         else{
-            vector<int> res(nums.size(), 0);
-            for(int i=0; i<nums.size(); i++){
-                res[i] = x/nums[i];
+            vector<int>res(nums.size());
+            for(int i = 0; i<nums.size(); i++){
+                res[i] = prod / nums[i];
             }
+
             return res;
         }
-
-        // return res;
     }
 };
