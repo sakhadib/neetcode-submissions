@@ -1,37 +1,34 @@
 class Solution {
 public:
-
-    std::string formatString(const std::string& input) {
-        std::string result;
-        result.reserve(input.size()); 
-
-        for (char c : input) {
-            if (std::isalnum(static_cast<unsigned char>(c))) {
-                result += std::tolower(static_cast<unsigned char>(c));
+    string normalize(string s) {
+        string r;
+        for (unsigned char c : s)
+            if (isalnum(c)){
+                r += tolower(c);
             }
-        }
-
-        return result;
+        return r;
     }
 
-
     bool isPalindrome(string s) {
-        string final = formatString(s);
+        int forward = 0;
+        int backward = s.size() - 1;
 
-        if(final == ""){
-            return true;
-        }
-
-        stack<char> st;
-        for(int i=0; i<final.size(); i++){
-            st.push(final[i]);
-        }
-
-        for(int i=0; i<=final.size()-1; i++){
-            if(final[i] != st.top()){
-                return false;
+        while(forward < backward){
+            if(!isalnum(s[forward])){
+                forward++;
             }
-            st.pop();
+
+            if(!isalnum(s[backward])){
+                backward--;
+            }
+
+            if(isalnum(s[forward]) && isalnum(s[backward])){
+                if(tolower(s[forward]) != tolower(s[backward])){
+                    return false;
+                }
+                forward++;
+                backward--;
+            }
         }
 
         return true;
